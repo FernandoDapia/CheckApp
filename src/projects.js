@@ -6,8 +6,6 @@ export async function init(container) {
 }
 
 async function render(container) {
-  container.innerHTML = '<div class="loading">Cargando...</div>';
-
   const projects = await storage.getProjects();
 
   container.innerHTML = `

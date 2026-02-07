@@ -9,8 +9,6 @@ export async function init(container) {
 }
 
 async function render(container) {
-  container.innerHTML = '<div class="loading">Cargando...</div>';
-
   const habits = await storage.getHabits();
   const weekLogs = await storage.getAllWeekLogs(currentWeek);
 
