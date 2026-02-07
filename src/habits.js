@@ -27,7 +27,7 @@ async function render(container) {
       </div>
 
       <div class="add-habit">
-        <input type="text" id="new-habit" placeholder="Nuevo hábito..." />
+        <input type="text" id="new-habit" placeholder="Nuevo hábito..." autocomplete="off" />
         <button id="add-habit-btn" class="btn-primary">Agregar</button>
       </div>
 

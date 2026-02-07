@@ -17,7 +17,7 @@ async function render(container) {
       </div>
 
       <div class="add-project">
-        <input type="text" id="new-project" placeholder="Nuevo proyecto..." />
+        <input type="text" id="new-project" placeholder="Nuevo proyecto..." autocomplete="off" />
         <button id="add-project-btn" class="btn-primary">Crear</button>
       </div>
 
@@ -61,7 +61,7 @@ function renderProject(project) {
       </div>
 
       <div class="add-task">
-        <input type="text" class="new-task-input" placeholder="Nueva tarea..." />
+        <input type="text" class="new-task-input" placeholder="Nueva tarea..." autocomplete="off" />
         <button class="add-task-btn btn-secondary">+</button>
       </div>
     </div>
