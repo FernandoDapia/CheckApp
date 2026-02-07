@@ -99,6 +99,14 @@ header h1 {
 }
 
 /* Buttons */
+button:focus {
+  outline: none;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
 .btn-primary {
   padding: 0.5rem 1rem;
   background: var(--accent);
