@@ -1,4 +1,5 @@
 // Módulo de gestión de hábitos
+import './habits.css';
 import * as storage from './storage.js';
 
 const DAYS = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];

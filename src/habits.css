@@ -1,0 +1,87 @@
+/* ===== HABITS SECTION ===== */
+.add-habit {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.add-habit input {
+  flex: 1;
+}
+
+.week-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+#current-week {
+  font-size: 1.1rem;
+  min-width: 150px;
+  text-align: center;
+}
+
+.habits-table-container {
+  overflow-x: auto;
+}
+
+.habits-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.habits-table th,
+.habits-table td {
+  padding: 0.75rem 0.5rem;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+}
+
+.habits-table th {
+  color: var(--text-secondary);
+  font-weight: 500;
+  font-size: 0.85rem;
+}
+
+.habits-table .habit-name {
+  text-align: left;
+  font-weight: 500;
+}
+
+.percentage {
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+
+.percentage.high {
+  background: var(--success);
+  color: #1a1a2e;
+}
+
+.percentage.medium {
+  background: var(--warning);
+  color: #1a1a2e;
+}
+
+.percentage.low {
+  background: var(--danger);
+  color: white;
+}
+
+@media (max-width: 600px) {
+  .habits-table th,
+  .habits-table td {
+    padding: 0.5rem 0.25rem;
+    font-size: 0.85rem;
+  }
+
+  .habits-table .habit-name {
+    max-width: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}

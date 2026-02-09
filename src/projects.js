@@ -1,4 +1,5 @@
 // Módulo de gestión de proyectos
+import './projects.css';
 import * as storage from './storage.js';
 
 export async function init(container) {

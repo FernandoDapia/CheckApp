@@ -1,3 +1,4 @@
+import './auth.css';
 import { supabase } from './supabase.js';
 
 let onAuthSuccess = null;

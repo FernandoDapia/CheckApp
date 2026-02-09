@@ -45,7 +45,7 @@ function showApp(app) {
       </div>
       <nav class="tabs">
         <button id="tab-habits" class="tab active">Hábitos</button>
-        <button id="tab-projects" class="tab">Proyectos</button>
+        <button id="tab-projects" class="tab">Tareas</button>
       </nav>
     </header>
     <main id="content"></main>

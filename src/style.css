@@ -46,6 +46,29 @@ header h1 {
   color: var(--accent);
 }
 
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.btn-logout {
+  padding: 0.5rem 1rem;
+  background: transparent;
+  border: 1px solid var(--text-secondary);
+  color: var(--text-secondary);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.2s;
+}
+
+.btn-logout:hover {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
 /* Tabs */
 .tabs {
   display: flex;
@@ -96,6 +119,13 @@ header h1 {
   text-align: center;
   color: var(--text-secondary);
   padding: 2rem;
+}
+
+/* Loading */
+.loading {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-secondary);
 }
 
 /* Buttons */
@@ -196,341 +226,6 @@ input[type="checkbox"] {
   accent-color: var(--accent);
 }
 
-/* ===== HABITS SECTION ===== */
-.add-habit {
-  display: flex;
-  gap: 0.5rem;
-  margin-bottom: 1.5rem;
-}
-
-.add-habit input {
-  flex: 1;
-}
-
-.week-nav {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-}
-
-#current-week {
-  font-size: 1.1rem;
-  min-width: 150px;
-  text-align: center;
-}
-
-.habits-table-container {
-  overflow-x: auto;
-}
-
-.habits-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.habits-table th,
-.habits-table td {
-  padding: 0.75rem 0.5rem;
-  text-align: center;
-  border-bottom: 1px solid var(--border);
-}
-
-.habits-table th {
-  color: var(--text-secondary);
-  font-weight: 500;
-  font-size: 0.85rem;
-}
-
-.habits-table .habit-name {
-  text-align: left;
-  font-weight: 500;
-}
-
-.percentage {
-  font-weight: 600;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-}
-
-.percentage.high {
-  background: var(--success);
-  color: #1a1a2e;
-}
-
-.percentage.medium {
-  background: var(--warning);
-  color: #1a1a2e;
-}
-
-.percentage.low {
-  background: var(--danger);
-  color: white;
-}
-
-/* ===== PROJECTS SECTION ===== */
-.add-project {
-  display: flex;
-  gap: 0.5rem;
-  margin-bottom: 1.5rem;
-}
-
-.add-project input {
-  flex: 1;
-}
-
-.projects-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.project-card {
-  background: var(--bg-card);
-  border-radius: 10px;
-  padding: 1rem;
-  cursor: grab;
-  transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
-}
-
-.project-card:active {
-  cursor: grabbing;
-}
-
-.project-card.dragging {
-  opacity: 0.5;
-  transform: scale(1.02);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-}
-
-.project-card.drag-over {
-  border: 2px dashed var(--accent);
-  transform: scale(1.01);
-}
-
-.project-header {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 0.75rem;
-}
-
-.drag-handle {
-  color: var(--text-secondary);
-  font-size: 1.2rem;
-  cursor: grab;
-  user-select: none;
-}
-
-.drag-handle:hover {
-  color: var(--accent);
-}
-
-.project-header h3 {
-  font-size: 1.1rem;
-  flex: 1;
-}
-
-.project-actions {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-left: auto;
-}
-
-.project-progress {
-  font-size: 0.85rem;
-  color: var(--text-secondary);
-  padding: 0.25rem 0.5rem;
-  background: var(--bg-secondary);
-  border-radius: 4px;
-}
-
-.project-progress.complete {
-  background: var(--success);
-  color: #1a1a2e;
-}
-
-.progress-bar {
-  height: 6px;
-  background: var(--bg-secondary);
-  border-radius: 3px;
-  overflow: hidden;
-  margin-bottom: 0.75rem;
-}
-
-.progress-fill {
-  height: 100%;
-  background: var(--accent);
-  transition: width 0.3s;
-}
-
-.tasks-list {
-  margin-bottom: 0.75rem;
-}
-
-.task-item {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.5rem;
-  border-radius: 6px;
-  transition: background 0.2s;
-}
-
-.task-item:hover {
-  background: var(--bg-secondary);
-}
-
-.task-item.done .task-text {
-  text-decoration: line-through;
-  color: var(--text-secondary);
-}
-
-.task-text {
-  flex: 1;
-}
-
-.task-item .btn-delete {
-  opacity: 0;
-  transition: opacity 0.2s;
-}
-
-.task-item:hover .btn-delete {
-  opacity: 1;
-}
-
-.add-task {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.add-task input {
-  flex: 1;
-}
-
-/* Header Top */
-.header-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-
-.btn-logout {
-  padding: 0.5rem 1rem;
-  background: transparent;
-  border: 1px solid var(--text-secondary);
-  color: var(--text-secondary);
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.85rem;
-  transition: all 0.2s;
-}
-
-.btn-logout:hover {
-  border-color: var(--danger);
-  color: var(--danger);
-}
-
-/* Loading */
-.loading {
-  text-align: center;
-  padding: 2rem;
-  color: var(--text-secondary);
-}
-
-/* ===== AUTH STYLES ===== */
-.auth-container {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-}
-
-.auth-card {
-  background: var(--bg-secondary);
-  border-radius: 12px;
-  padding: 2rem;
-  width: 100%;
-  max-width: 400px;
-}
-
-.auth-card h2 {
-  text-align: center;
-  color: var(--accent);
-  margin-bottom: 0.5rem;
-  font-size: 2rem;
-}
-
-.auth-subtitle {
-  text-align: center;
-  color: var(--text-secondary);
-  margin-bottom: 1.5rem;
-}
-
-.auth-tabs {
-  display: flex;
-  gap: 0.5rem;
-  margin-bottom: 1.5rem;
-}
-
-.auth-tab {
-  flex: 1;
-  padding: 0.75rem;
-  background: var(--bg-card);
-  border: none;
-  color: var(--text-secondary);
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.auth-tab:hover {
-  color: var(--text-primary);
-}
-
-.auth-tab.active {
-  background: var(--accent);
-  color: white;
-}
-
-.auth-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.form-group input {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  color: var(--text-primary);
-  font-size: 1rem;
-}
-
-.form-group input:focus {
-  outline: none;
-  border-color: var(--accent);
-}
-
-.btn-full {
-  width: 100%;
-  padding: 0.75rem;
-  font-size: 1rem;
-}
-
-.error-message {
-  color: var(--danger);
-  font-size: 0.9rem;
-  text-align: center;
-  min-height: 1.5rem;
-}
-
 /* Responsive */
 @media (max-width: 600px) {
   #app {
@@ -540,22 +235,5 @@ input[type="checkbox"] {
   .header-top {
     flex-direction: column;
     gap: 0.5rem;
-  }
-
-  .habits-table th,
-  .habits-table td {
-    padding: 0.5rem 0.25rem;
-    font-size: 0.85rem;
-  }
-
-  .habits-table .habit-name {
-    max-width: 80px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .auth-card {
-    padding: 1.5rem;
   }
 }
