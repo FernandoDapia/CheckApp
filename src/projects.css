@@ -104,6 +104,7 @@
   overflow: hidden;
   border-radius: 6px;
   margin-bottom: 2px;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .task-item {
@@ -116,10 +117,13 @@
   position: relative;
   z-index: 1;
   transition: transform 0.2s;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.task-item:hover {
-  background: var(--bg-secondary);
+@media (hover: hover) {
+  .task-item:hover {
+    background: var(--bg-secondary);
+  }
 }
 
 .task-item.done .task-text {
@@ -146,9 +150,10 @@
   font-size: 0.8rem;
   font-weight: 500;
   cursor: pointer;
-  padding: 0 1rem;
+  width: 70px;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .task-action-btn.edit-task {

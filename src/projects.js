@@ -220,7 +220,7 @@ function attachEvents(container) {
 
       // Solo permitir swipe hacia la izquierda
       if (diff < 0) {
-        const translateX = Math.max(diff, -130);
+        const translateX = Math.max(diff, -140);
         taskItem.style.transform = `translateX(${translateX}px)`;
       }
     }, { passive: true });
@@ -231,7 +231,7 @@ function attachEvents(container) {
 
       if (diff < -50) {
         // Abrir acciones
-        taskItem.style.transform = 'translateX(-130px)';
+        taskItem.style.transform = 'translateX(-140px)';
         swipeContainer.classList.add('swiped');
         // Cerrar otros swipes abiertos
         container.querySelectorAll('.task-swipe-container.swiped').forEach(other => {
