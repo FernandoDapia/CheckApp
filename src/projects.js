@@ -69,10 +69,15 @@ function renderProject(project) {
 
 function renderTask(task) {
   return `
-    <div class="task-item ${task.done ? 'done' : ''}" data-task-id="${task.id}">
-      <input type="checkbox" class="task-check" ${task.done ? 'checked' : ''} />
-      <span class="task-text">${task.text}</span>
-      <button class="btn-delete delete-task" title="Eliminar">&times;</button>
+    <div class="task-swipe-container" data-task-id="${task.id}">
+      <div class="task-item ${task.done ? 'done' : ''}">
+        <input type="checkbox" class="task-check" ${task.done ? 'checked' : ''} />
+        <span class="task-text">${task.text}</span>
+      </div>
+      <div class="task-actions">
+        <button class="task-action-btn edit-task" title="Editar">Editar</button>
+        <button class="task-action-btn delete-task" title="Eliminar">Eliminar</button>
+      </div>
     </div>
   `;
 }
@@ -138,8 +143,8 @@ function attachEvents(container) {
     checkbox.addEventListener('change', async (e) => {
       const card = e.target.closest('.project-card');
       const projectId = card.dataset.projectId;
-      const taskItem = e.target.closest('.task-item');
-      const taskId = taskItem.dataset.taskId;
+      const swipeContainer = e.target.closest('.task-swipe-container');
+      const taskId = swipeContainer.dataset.taskId;
       await storage.toggleTask(projectId, taskId);
       await render(container);
     });
@@ -150,11 +155,107 @@ function attachEvents(container) {
     btn.addEventListener('click', async (e) => {
       const card = e.target.closest('.project-card');
       const projectId = card.dataset.projectId;
-      const taskItem = e.target.closest('.task-item');
-      const taskId = taskItem.dataset.taskId;
+      const swipeContainer = e.target.closest('.task-swipe-container');
+      const taskId = swipeContainer.dataset.taskId;
       await storage.deleteTask(projectId, taskId);
       await render(container);
     });
+  });
+
+  // Editar tarea
+  container.querySelectorAll('.edit-task').forEach(btn => {
+    btn.addEventListener('click', async (e) => {
+      const card = e.target.closest('.project-card');
+      const projectId = card.dataset.projectId;
+      const swipeContainer = e.target.closest('.task-swipe-container');
+      const taskId = swipeContainer.dataset.taskId;
+      const taskItem = swipeContainer.querySelector('.task-item');
+      const taskText = taskItem.querySelector('.task-text');
+      const currentText = taskText.textContent;
+
+      // Reemplazar texto con input editable
+      taskText.innerHTML = `<input type="text" class="edit-task-input" value="${currentText}" autocomplete="off" />`;
+      const input = taskText.querySelector('.edit-task-input');
+      input.focus();
+      input.select();
+
+      // Cerrar swipe
+      swipeContainer.classList.remove('swiped');
+
+      const saveEdit = async () => {
+        const newText = input.value.trim();
+        if (newText && newText !== currentText) {
+          await storage.editTask(projectId, taskId, newText);
+        }
+        await render(container);
+      };
+
+      input.addEventListener('blur', saveEdit, { once: true });
+      input.addEventListener('keypress', (ev) => {
+        if (ev.key === 'Enter') {
+          input.blur();
+        }
+      });
+    });
+  });
+
+  // Swipe en tareas (touch)
+  container.querySelectorAll('.task-swipe-container').forEach(swipeContainer => {
+    let startX = 0;
+    let currentX = 0;
+    const taskItem = swipeContainer.querySelector('.task-item');
+
+    swipeContainer.addEventListener('touchstart', (e) => {
+      // No interferir con checkbox
+      if (e.target.classList.contains('task-check')) return;
+      startX = e.touches[0].clientX;
+      currentX = startX;
+      taskItem.style.transition = 'none';
+    }, { passive: true });
+
+    swipeContainer.addEventListener('touchmove', (e) => {
+      if (e.target.classList.contains('task-check')) return;
+      currentX = e.touches[0].clientX;
+      const diff = currentX - startX;
+
+      // Solo permitir swipe hacia la izquierda
+      if (diff < 0) {
+        const translateX = Math.max(diff, -130);
+        taskItem.style.transform = `translateX(${translateX}px)`;
+      }
+    }, { passive: true });
+
+    swipeContainer.addEventListener('touchend', () => {
+      taskItem.style.transition = 'transform 0.2s';
+      const diff = currentX - startX;
+
+      if (diff < -50) {
+        // Abrir acciones
+        taskItem.style.transform = 'translateX(-130px)';
+        swipeContainer.classList.add('swiped');
+        // Cerrar otros swipes abiertos
+        container.querySelectorAll('.task-swipe-container.swiped').forEach(other => {
+          if (other !== swipeContainer) {
+            other.classList.remove('swiped');
+            other.querySelector('.task-item').style.transform = '';
+          }
+        });
+      } else {
+        // Cerrar
+        taskItem.style.transform = '';
+        swipeContainer.classList.remove('swiped');
+      }
+    });
+  });
+
+  // Click fuera cierra swipes abiertos
+  container.addEventListener('click', (e) => {
+    if (!e.target.closest('.task-swipe-container')) {
+      container.querySelectorAll('.task-swipe-container.swiped').forEach(sc => {
+        sc.classList.remove('swiped');
+        sc.querySelector('.task-item').style.transform = '';
+      });
+    }
   });
 
   // Reordenar proyectos: drag (desktop) + touch (móvil)

@@ -226,6 +226,25 @@ export async function toggleTask(projectId, taskId) {
     .eq('id', projectId);
 }
 
+export async function editTask(projectId, taskId, newText) {
+  const { data: project } = await supabase
+    .from('projects')
+    .select('tasks')
+    .eq('id', projectId)
+    .single();
+
+  if (!project) return;
+
+  const tasks = project.tasks.map(t =>
+    t.id === taskId ? { ...t, text: newText } : t
+  );
+
+  await supabase
+    .from('projects')
+    .update({ tasks })
+    .eq('id', projectId);
+}
+
 export async function deleteTask(projectId, taskId) {
   const { data: project } = await supabase
     .from('projects')
