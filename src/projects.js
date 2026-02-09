@@ -127,6 +127,7 @@ function attachEvents(container) {
   container.querySelectorAll('.new-task-input').forEach(input => {
     input.addEventListener('keypress', (e) => {
       if (e.key === 'Enter') {
+        e.target.blur();
         e.target.parentElement.querySelector('.add-task-btn').click();
       }
     });
@@ -156,13 +157,14 @@ function attachEvents(container) {
     });
   });
 
-  // Drag and drop para reordenar proyectos
+  // Reordenar proyectos: drag (desktop) + touch (móvil)
   const projectCards = container.querySelectorAll('.project-card');
   let draggedCard = null;
 
   projectCards.forEach((card, index) => {
     card.dataset.index = index;
 
+    // Desktop drag events
     card.addEventListener('dragstart', (e) => {
       draggedCard = card;
       card.classList.add('dragging');
@@ -172,21 +174,15 @@ function attachEvents(container) {
     card.addEventListener('dragend', () => {
       card.classList.remove('dragging');
       draggedCard = null;
-      container.querySelectorAll('.project-card').forEach(c => {
-        c.classList.remove('drag-over');
-      });
+      container.querySelectorAll('.project-card').forEach(c => c.classList.remove('drag-over'));
     });
 
     card.addEventListener('dragover', (e) => {
       e.preventDefault();
-      if (draggedCard && draggedCard !== card) {
-        card.classList.add('drag-over');
-      }
+      if (draggedCard && draggedCard !== card) card.classList.add('drag-over');
     });
 
-    card.addEventListener('dragleave', () => {
-      card.classList.remove('drag-over');
-    });
+    card.addEventListener('dragleave', () => card.classList.remove('drag-over'));
 
     card.addEventListener('drop', async (e) => {
       e.preventDefault();
@@ -196,6 +192,59 @@ function attachEvents(container) {
         await storage.reorderProjects(fromIndex, toIndex);
         await render(container);
       }
+    });
+
+    // Touch events para móvil (solo desde el drag-handle)
+    const handle = card.querySelector('.drag-handle');
+    if (!handle) return;
+
+    let touchCurrentCard = null;
+
+    handle.addEventListener('touchstart', (e) => {
+      touchCurrentCard = card;
+      card.classList.add('dragging');
+      e.preventDefault();
+    }, { passive: false });
+
+    handle.addEventListener('touchmove', (e) => {
+      if (!touchCurrentCard) return;
+      e.preventDefault();
+
+      const touchY = e.touches[0].clientY;
+      const cards = container.querySelectorAll('.project-card');
+      cards.forEach(c => c.classList.remove('drag-over'));
+
+      for (const c of cards) {
+        if (c === touchCurrentCard) continue;
+        const rect = c.getBoundingClientRect();
+        if (touchY >= rect.top && touchY <= rect.bottom) {
+          c.classList.add('drag-over');
+          break;
+        }
+      }
+    }, { passive: false });
+
+    handle.addEventListener('touchend', async (e) => {
+      if (!touchCurrentCard) return;
+
+      const touchY = e.changedTouches[0].clientY;
+      const cards = container.querySelectorAll('.project-card');
+      cards.forEach(c => c.classList.remove('drag-over'));
+      touchCurrentCard.classList.remove('dragging');
+
+      for (const c of cards) {
+        if (c === touchCurrentCard) continue;
+        const rect = c.getBoundingClientRect();
+        if (touchY >= rect.top && touchY <= rect.bottom) {
+          const fromIndex = parseInt(touchCurrentCard.dataset.index);
+          const toIndex = parseInt(c.dataset.index);
+          await storage.reorderProjects(fromIndex, toIndex);
+          await render(container);
+          break;
+        }
+      }
+
+      touchCurrentCard = null;
     });
   });
 }
