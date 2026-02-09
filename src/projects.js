@@ -11,16 +11,16 @@ async function render(container) {
   container.innerHTML = `
     <div class="projects-section">
       <div class="section-header">
-        <h2>Proyectos</h2>
+        <h2>Lista de Tareas</h2>
       </div>
 
       <div class="add-project">
-        <input type="text" id="new-project" placeholder="Nuevo proyecto..." autocomplete="off" />
+        <input type="text" id="new-project" placeholder="Nueva lista de tareas..." autocomplete="off" />
         <button id="add-project-btn" class="btn-primary">Crear</button>
       </div>
 
       ${projects.length === 0 ? `
-        <p class="empty-state">No tienes proyectos. Crea uno para empezar.</p>
+        <p class="empty-state">No tienes lista de tareas. Crea una para empezar.</p>
       ` : `
         <div class="projects-list">
           ${projects.map(project => renderProject(project)).join('')}
