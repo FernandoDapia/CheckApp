@@ -101,7 +101,7 @@ header h1 {
 #content {
   background: var(--bg-secondary);
   border-radius: 12px;
-  padding: 1.5rem;
+  padding: 0.5rem;
 }
 
 /* Section Headers */
